@@ -19,6 +19,11 @@ def setup_logger(log_filename: str, level=logging.INFO):
     for handler in logger.handlers[:]:
         logger.removeHandler(handler)
 
+    # Remove default logs 
+    logging.getLogger('werkzeug').handlers = []
+    log = logging.getLogger('werkzeug')
+    log.setLevel(100)
+
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         '%Y-%m-%dT%H:%M:%S'
@@ -79,43 +84,3 @@ def savedLevel(type: str | None = "GET", value: str | None = None):
             f.writelines(data)
             f.close()
         return
-
-# # Create a logs folder in the root of the project
-# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-# log_dir = os.path.join(BASE_DIR, "logs")
-# os.makedirs(log_dir, exist_ok=True)
-# log_file_path = os.path.join(log_dir, "finance.log")
-
-# logger = logging.getLogger("FinanceLogger")
-# logger.setLevel(logging.DEBUG)
-
-# # Create handlers and configure them
-# console_handler = logging.StreamHandler()
-# console_handler.setLevel(logging.WARN)
-
-# file_handler = logging.FileHandler(log_file_path)
-# level = savedLevel("GET", None)
-# if level is None:
-#     level = logging.INFO
-# file_handler.setLevel(level)
-
-# # Create formatter and add it to handlers
-# formatter = logging.Formatter(
-#     fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-#     datefmt='%Y-%m-%dT%H:%M:%S'
-# )
-# console_handler.setFormatter(formatter)
-# file_handler.setFormatter(formatter)
-
-# # Remove all previous handlers
-# for handler in logger.handlers[:]:
-#     logger.removeHandler(handler)
-
-# # Remove default logs 
-# logging.getLogger('werkzeug').handlers = []
-# log = logging.getLogger('werkzeug')
-# log.setLevel(logging.FATAL)
-
-# # Add new handlers
-# logger.addHandler(console_handler)
-# logger.addHandler(file_handler)
