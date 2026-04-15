@@ -1,0 +1,155 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <div class="mb-3">
+                <h2>Welcome, {{ current_user.nickname }}!</h2>
+                <a href="{{ url_for('main.profile') }}">View Profile</a>
+            </div>
+            <div class="mb-3 d-flex justify-content-between">
+                <button id="toggleDarkBtn" style="margin-right: 5px;" class="btn btn-outline-secondary h-50" onclick="toggleDark()">Dark Mode</button>
+                <a href="{{ url_for('main.logging_info') }}" class="btn btn-outline-warning w-15 h-50">Logging Info</a>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('finance.expenses') }}" class="btn btn-outline-danger w-100">Expenses</a>
+            </div>
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('finance.incomes') }}" class="btn btn-outline-success w-100">Incomes</a>
+            </div>
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('finance.budget') }}" class="btn btn-outline-info w-100">Budget</a>
+            </div>
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('finance.categories') }}" class="btn btn-outline-primary w-100">Categories</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Analytics</h2>
+        </div>
+        <hr>
+        <p></p>
+        <!-- Income Information -->
+        <div style="border: 4px dashed green; padding: 10px;" class="row">
+            <h4>Money In</h4>
+            <form action="{{ url_for('main.filter_dashboard', kind='incomes') }}" method="POST" class="mt-3">
+                <div class="row justify-content-between mt-4">
+                    <div class="col-md-4">
+                        <h5>Total</h5>
+                        <h5>${{ incomes.total if incomes.total else 0 }}</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label>Timeframe</label>
+                            <select name="timeframe" id="out_timeframe_choice">
+                                {% for time in timeframes %} <!-- incomes.timeframe and incomes.timeframe -->
+                                <option value="{{ time }}" {% if "None" == time  %}selected{% endif %}>{{ time }}</option>
+                                {% endfor %}    
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label>Start Date</label>
+                            <input type="date" name="start_date" class="form-control" value="{{ incomes.start_date if incomes.start_date }}">
+                            <label>End Date</label>
+                            <input type="date" name="end_date" class="form-control" value="{{ incomes.end_date if incomes.end_date }}">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Filter Incomes</button>
+            </form>
+            <!-- Charts here -->
+            <div class="mb-3 d-flex justify-content-between">
+                <div class="chart-container">
+                    {{ incomes.category_chart | safe }}
+                </div>
+                <div class="chart-container">
+                    {{ incomes.bar_graph | safe }}
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <!-- Expense Information -->
+        <div style="border: 4px dashed red; padding: 10px;" class="row">
+            <h4>Money Out</h4>
+            <form action="{{ url_for('main.filter_dashboard', kind='expenses') }}" method="POST" class="mt-3">
+                <div class="row justify-content-between mt-4">
+                    <div class="col-md-4">
+                        <h5>Total</h5>
+                        <h5>${{ expenses.total if expenses.total else 0 }}</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label>Timeframe</label>
+                            <select name="timeframe" id="out_timeframe_choice">
+                                {% for time in timeframes %}
+                                <option value="{{ time }}" {% if "None" == time  %}selected{% endif %}>{{ time }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label>Start Date</label>
+                            <input type="date" name="start_date" class="form-control" value="{{ expenses.start_date if expenses.start_date }}">
+                            <label>End Date</label>
+                            <input type="date" name="end_date" class="form-control" value="{{ expenses.end_date if expenses.end_date }}">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Filter Expenses</button>
+            </form>
+            <!-- Charts here -->
+            <div class="mb-3 d-flex justify-content-between">
+                <div class="chart-container">
+                    {{ expenses.category_chart | safe }}
+                </div>
+                <div class="chart-container">
+                    {{ expenses.bar_graph | safe }}
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <!-- Comparative Information -->
+        <div style="border: 4px dashed blue; padding: 10px;" class="row">
+            <h4>Comparisons</h4>
+            <form action="{{ url_for('main.filter_dashboard', kind='compares') }}" method="POST" class="mt-3">
+                <div class="row justify-content-between mt-4">
+                    <div class="col-md-4">
+                        <h5>Profit</h5>
+                        <h5>${{ compare.profit if compare.profit else 0 }}</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label>Timeframe</label>
+                            <select name="timeframe" id="comapre_timeframe_choice">
+                                {% for time in timeframes %}
+                                <option value="{{ time }}" {% if "None" == time  %}selected{% endif %}>{{ time }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label>Start Date</label>
+                            <input type="date" name="start_date" class="form-control" value="{{ compare.start_date if compare.start_date }}">
+                            <label>End Date</label>
+                            <input type="date" name="end_date" class="form-control" value="{{ compare.end_date if compare.end_date }}">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Filter Comparative</button>
+            </form>
+            <p></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

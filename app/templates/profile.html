@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <h2>Your Profile</h2>
+        <p>Manage your profile information.</p>
+        <form method="POST" class="mt-3">
+            <!-- User info -->
+            <div class="mb-3">
+                <div class="mb-3">
+                    <label>Nickname</label>
+                    <input type="text" name="nickname" class="form-control w-50" value="{{ userInfo.nickname }}" required>
+                </div>
+                <div class="mb-3">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control w-50" value="{{ userInfo.email }}" required>
+                </div>
+            </div>
+            <!-- Button to toggle the hidden section -->
+            <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#passwordSection">
+                Change Password
+            </button>
+            <!-- Change password section -->
+            <div class="collapse" id="passwordSection">
+                <div class="card card-body mb-3">
+                    <div class="mb-3">
+                        <label class="form-label">New Password</label>
+                        <input type="password" id="new_password" name="new_password" class="form-control w-50">
+                    </div>
+                        <div class="mb-3">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control w-50">
+                        <!-- Check if passwords match at runtime -->
+                        <div id="passwordError" class="invalid-feedback">
+                            Passwords do not match!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-end">
+                <button type="submit" id="submitBtn" class="btn btn-success">Update Profile</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

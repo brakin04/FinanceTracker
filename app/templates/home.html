@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Welcome Section -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 text-primary">Welcome to your finance tracker!</h1>
+            <p class="lead">Your go-to platform for organizing and analyzing cash flow</p>
+        </div>
+    </div>
+
+    <!-- About Project Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">About the App</h3>
+                    <p class="card-text">This allows users to record their expenses and incomes and create a budget all in one place!</p>
+                    <p>Built with Flask and Bootstrap. Flask-Login for authentication, and SQLAlchemy for database management.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-4">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg w-100 mb-3">Login</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-success btn-lg w-100 mb-3">Register</a>
+        </div>
+    </div>
+    
+    <!-- Documentation Section -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <div class="card shadow-sm p-3">
+                    <h3>Documentation</h3>
+                    <div>
+                        {{ content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

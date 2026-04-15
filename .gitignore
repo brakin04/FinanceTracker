@@ -1,0 +1,13 @@
+__pycache__/
+venv/
+*.pyc
+*.pyo
+*.pyd
+finance.db
+instance/
+logs/
+migrations/
+.env
+.idea/
+.DS_Store
+finance.log

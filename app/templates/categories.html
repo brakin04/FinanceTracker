@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Your Categories</h2>
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('bottom')">Go to Bottom</button>
+        </div>
+        <p>Manage your spending categories.</p>
+        <div class="mb-3 d-flex justify-content-end" >
+            <a class="btn btn-outline-warning w-25" href="{{ url_for('finance.add_category') }}">Add a category</a>
+        </div>
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Filter by Type</h2>
+            <div class="mb-3 d-flex justify-content-end">
+                <a class="btn btn-outline-info w-10" style="margin-right: 5px;" href="{{ url_for('finance.categories', types='expense') }}">Expense</a>
+                <a class="btn btn-outline-secondary w-10" style="margin-right: 5px;" href="{{ url_for('finance.categories', types='income') }}">Income</a>
+                <a class="btn btn-outline-danger w-10" href="{{ url_for('finance.categories', types='all') }}">All</a>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Info from database -->
+        <h4>Categories</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>  
+                        <td>{{ category.type }}</td>    
+                        <td>{{ category.description[:50] }}{% if category.description|length > 50 %}...{% endif %}</td>
+                        <!-- Actions -->
+                        <td>
+                            <a href="{{ url_for('finance.edit_category', id=category.id) }}" class="btn btn-outline-info btn-sm">Edit</a>
+                            <a href="{{ url_for('finance.delete_category', id=category.id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-3 d-flex justify-content-end">
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('top')">Go to Top</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

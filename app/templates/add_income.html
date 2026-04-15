@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <!-- State every aspect of an income -->
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Add an income</h2>
+            <a href="{{ url_for('finance.add_category') }}" class="btn btn-outline-secondary w-15">Add Category</a>
+        </div>
+        <form method="POST" class="mt-3">
+            <div class="mb-3">
+                <label>Date</label>
+                <input type="date" name="date" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Amount</label>
+                <input type="number" name="amount" class="form-control" step=".01" min="0" required>
+            </div>
+            <div class="mb-3">
+                <label>Source</label>
+                <input type="text" name="source" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Category</label>
+                <select name="category" class="form-control" required>
+                    {% for category in categories %}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Description</label>
+                <input type="text" name="description" class="form-control">
+            </div>
+            <!-- <div class="mb-3">
+                <label>Recurring</label>
+                <input type="checkbox" name="recurring" class="form-check-input">
+            </div> -->
+            <div class="mb-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

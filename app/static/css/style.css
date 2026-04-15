@@ -1,0 +1,81 @@
+/* General */
+body {
+    background-color: #ffffff;
+}
+
+body.blurred {
+    filter: blur(100%);
+    pointer-events: none; 
+}
+
+.nav-link{
+    color: #000000;
+    font-weight: 400;
+    font-size: 18px;
+}
+/* Navbar */
+.navbar {
+    background-color: #1e8eff !important;
+}
+
+/* Cards */
+.card {
+    border-radius: 10px;
+    border: 1px solid #dddddd;
+}
+
+/* Flash messages */
+.alert {
+    border-radius: 10px;
+}
+
+/* Form Inputs */
+input, textarea, select {
+    border-radius: 5px;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 20px;
+}
+
+/* Charts */
+.chart-container {
+    width: 50%;
+    margin: 10px;
+    font-size: medium;
+    justify-content: center;
+}
+
+.col-md-4 {
+    margin: 5px;
+    width: 30%;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+textarea {
+  width: 45%; /* Adjust width as needed */
+  height: 60px; /* Adjust height as needed */
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
+.textarea2 {
+  width: 45%; /* Adjust width as needed */
+  height: 60px; /* Adjust height as needed */
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}

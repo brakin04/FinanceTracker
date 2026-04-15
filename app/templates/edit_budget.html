@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <!-- Edit aspects of a single budget -->
+        <h2>Edit Budget for {{ budget.category }}</h2>
+        <form method="POST" class="mt-3">
+            <div class="mb-3">
+                <label>Amount</label>
+                <input type="number" name="amount" class="form-control" step=".01" min="0" value="{{ budget.amount }}" required>
+            </div>
+            <div class="mb-3">
+                <label>Category</label>
+                <select name="category" id="string_choice" required>
+                    {% for category in categories %}
+                    <option value="{{ category.name }}" {% if category.name == budget.category %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Budget</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

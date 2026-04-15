@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Your Incomes</h2>
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('bottom')">Go to Bottom</button>
+        </div>
+        <p>See where your money is coming from.</p>
+        <div class="mb-3 d-flex  justify-content-between" >
+            <a class="btn btn-outline-warning w-50" href="{{ url_for('finance.add_income') }}">Add an income</a>
+            <a class="btn btn-outline-info w-25" href="{{ url_for('finance.filter_incomes') }}">Filter</a>
+        </div>
+
+        <hr>
+        
+        <!-- Info from database -->
+        <h4>Incomes</h4>
+        <p>Total: ${{ "{:,.2f}".format(total) }}</p>
+        <p>Average: ${{ "{:,.2f}".format(avg) }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Source</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for income in incomes %}
+                    <tr>
+                        <td>{{ income.date }}</td>
+                        <td>{{ "{:,.2f}".format(income.amount) }}</td>
+                        <td>{{ income.source }}</td>
+                        <td>{{ income.category }}</td>
+                        <td>{{ income.description[:50] }}{% if income.description|length > 50 %}...{% endif %}</td>       
+                        <!-- Actions -->
+                        <td>
+                            <a href="{{ url_for('finance.edit_income', id=income.id) }}" class="btn btn-outline-info btn-sm">Edit</a>
+                            <a href="{{ url_for('finance.delete_income', id=income.id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-3 d-flex justify-content-end">
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('top')">Go to Top</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

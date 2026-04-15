@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100 text-center">
+    <div class="shadow-lg p-4 bg-dark text-light rounded">
+        <h1 class="display-3 text-danger">{{errorNumber if errorNumber else 'Critical'}} error</h1>
+        <p class="lead">{{description if description else '😵 The app seems to have a problem!'}}</p>
+        <p>Please try again later or <a href="{{ url_for('main.dashboard') }}" class="text-info">return to dashboard</a>.</p>
+    </div>
+</div>
+{% endblock %}

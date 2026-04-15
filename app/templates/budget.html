@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Your Budget</h2>
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('bottom')">Go to Bottom</button>
+        </div>
+
+        <p>Create your own.</p>
+        <div class="mb-3 d-flex justify-content-left">
+            <a class="btn btn-outline-warning w-50" href="{{ url_for('finance.add_budget') }}">Add a limit</a>
+        </div>
+
+        <hr>
+
+        <!-- Info from database -->
+        <h4>Budgets</h4>
+        <p>Monthly limit: ${{ "{:,.2f}".format(total) }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for budget in budgets %}
+                    <tr>
+                        <td>{{ "{:,.2f}".format(budget.amount) }}</td>
+                        <td>{{ budget.category }}</td>
+                        <!-- Actions -->
+                        <td>
+                            <a href="{{ url_for('finance.edit_budget', id=budget.id) }}" class="btn btn-outline-info btn-sm">Edit</a>
+                            <a href="{{ url_for('finance.delete_budget', id=budget.id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="chart-container">
+            {{ budget_chart | safe }}
+        </div> 
+        <div class="mb-3 d-flex justify-content-end">
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('top')">Go to Top</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

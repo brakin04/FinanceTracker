@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Local environment files
+.env
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git and editor files
+.git
+.gitignore
+.vscode
+.idea
+
+# Logs
+logs/
+*.log
+
+# SQLite database (stored in instance/)
+# instance/*.db
+
+# Prevent docker-compose and Dockerfile from being copied into the image
+docker-compose.yaml
+docker-compose.yml
+*.yml
+*.yaml
+
+# Local scripts not needed in the container
+start.sh
+start.bat
+todo.txt
+README.md

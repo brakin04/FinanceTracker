@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <h2>Logging Info</h2>
+        <div class="mb-3 d-flex justify-content-between">
+            <p>Logging information.</p>
+            <button id="scrollDnBtn" class="btn btn-outline-primary" onclick="scrollToSpot('bottom')">Go to Bottom</button>
+        </div>
+        <div class="mt-4">
+            <h5>Current Log Level: {{ current_level }}</h5>
+            <p>You can change it to:</p>
+            <div class="mb-3" aria-label="Log Level Buttons">
+
+                <!-- Form for DEBUG -->
+                <form method="POST" action="{{ url_for('main.logging_info', level='DEBUG') }}" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-primary">DEBUG</button>
+                </form>
+
+                <!-- Form for INFO -->
+                <form method="POST" action="{{ url_for('main.logging_info', level='INFO') }}" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-success">INFO</button>
+                </form>
+
+                <!-- Form for WARNING -->
+                <form method="POST" action="{{ url_for('main.logging_info', level='WARNING') }}" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-danger">WARNING</button>
+                </form>
+
+                <!-- Form for ERROR -->
+                <!-- <form method="POST" action="{{ url_for('main.logging_info', level='ERROR') }}" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-secondary">ERROR</button>
+                </form> -->
+
+            </div>
+            <p></p>
+            <p>Your log file:</p>
+            <pre>{{ log_file }}</pre>
+            <div class="mb-3 d-flex justify-content-end">
+                <button id="scrollUpBtn" class="btn btn-outline-primary" onclick="scrollToSpot('top')">Go to Top</button>
+            </div>
+    </div>
+</div>
+{% endblock %}

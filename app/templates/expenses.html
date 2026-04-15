@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between">
+            <h2>Your Expenses</h2>
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('bottom')">Go to Bottom</button>
+        </div>
+        <p>Track your spending.</p>
+        <div class="mb-3 d-flex justify-content-between" >
+            <a class="btn btn-outline-warning w-50" href="{{ url_for('finance.add_expense') }}">Add an expense</a>
+            <a class="btn btn-outline-info w-25" href="{{ url_for('finance.filter_expenses') }}">Filter</a>
+        </div>
+
+        <hr>
+
+        <!-- Info from database -->
+        <h4>Expenses</h4>
+        <p>Total: ${{ "{:,.2f}".format(total) }}</p>
+        <p>Average: ${{ "{:,.2f}".format(avg) }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Where</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.date }}</td>
+                        <td>{{ "{:,.2f}".format(expense.amount) }}</td>
+                        <td>{{ expense.where }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.description[:50] }}{% if expense.description|length > 50 %}...{% endif %}</td>       
+                        <!-- Actions -->
+                        <td>
+                            <a href="{{ url_for('finance.edit_expense', id=expense.id) }}" class="btn btn-outline-info btn-sm">Edit</a>
+                            <a href="{{ url_for('finance.delete_expense', id=expense.id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-3 d-flex justify-content-end">
+            <button id="scrollBtn" class="btn btn-outline-primary w-15" onclick="scrollToSpot('top')">Go to Top</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

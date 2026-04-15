@@ -1,0 +1,23 @@
+models
+    - Maybe taxes & writeoffs/deductions
+
+HTML
+    - Analytics?
+        business / personal accounts
+
+Budgets?
+
+https://www.google.com/search?q=if+i+have+a+database+setup+in+flask+app%2C+how+do+i+add+more+columns+to+the+db+keeping+all+my+old+data&oq=if+i+have+a+database+setup+in+flask+app%2C+how+do+i+add+more+columns+to+the+db+keeping+all+my+old+data&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRiPAjIHCAIQIRiPAtIBCTQyMzA1ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
+
+make recurring work (need to change values in db)
+
+add suggested budgets based off gross inc and possibly investments
+
+assetts section for business acc as well then stock?
+
+Test:
+    add budget post failure (existing category)
+
+line graph data, categories, other level stuff in utils
+
+js for sorting table of exp, inc, budget

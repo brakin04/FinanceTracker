@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Login</h2>
+<form method="POST" class="mt-3">
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="text" name="email" class="form-control" autocomplete="new-password" required>
+    </div>
+    <div class="mb-3">
+        <label>Nickname</label>
+        <input type="text" name="nickname" class="form-control" autocomplete="new-password" required>
+    </div>
+    <!-- Choice of security question to log in with -->
+    <div class="mb-3">
+        <label>Security Question</label>
+        <p>Choose one of the following security questions:</p>
+        <select name="security_question" class="form-control" required>
+            {% for question in security_questions %}
+            <option value="{{ question }}">{{ question }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Security Answer</label>
+        <input type="text" name="security_answer" class="form-control" autocomplete="new-password" required>
+    </div>
+    <button type="submit" class="btn btn-success">Login</button>
+</form>
+{% endblock %}

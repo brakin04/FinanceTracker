@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <!-- Edit aspects of a single income -->
+        <h2>Edit Income: From {{ income.source }} on {{ income.date }}</h2>
+        <form method="POST">
+            <div class="mb-3">
+                <label>Date</label>
+                <input type="date" name="date" class="form-control" value="{{ income.date }}" required>
+            </div>
+            <div class="mb-3">
+                <label>Amount</label>
+                <input type="number" name="amount" class="form-control" step=".01" min="0" value="{{ income.amount }}" required>
+            </div>
+            <div class="mb-3">
+                <label>Source</label>
+                <input type="text" name="source" class="form-control" value="{{ income.source }}" required>
+            </div>
+            <div class="mb-3">
+                <label>Category</label>
+                <select name="category" class="form-control" required>
+                    {% for category in categories %}
+                    <option value="{{ category.name }}" {% if category.name == income.category %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Description</label>
+                <input type="text" name="description" class="form-control" value="{{ income.description }}">
+            </div>
+            <!-- <div class="mb-3">
+                <label>Recurring</label>
+                <input type="checkbox" name="recurring" class="form-check-input" {% if income.recurring %}checked{% endif %}>
+            </div> -->
+            <button type="submit" class="btn btn-primary">Update Income</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

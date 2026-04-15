@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <!-- Form with various sections to filter incomes -->
+        <form method="POST">
+            <div class="mb-3 d-flex justify-content-between">
+                <h2>Filter Incomes</h2>
+                <button type="submit" name="clear" class="btn btn-outline-warning">Clear</button>
+            </div>
+            <div class="row justify-content-left mt-4">
+                <div class="col-md-4">
+                    <label>Start Date</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ filters.start_date if filters.start_date }}">
+                </div>
+                <div class="col-md-4">
+                    <label>End Date</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ filters.end_date if filters.end_date }}">
+                </div>
+            </div>
+            <div class="row justify-content-left mt-4">
+                <div class="col-md-4">
+                    <label>Mininum Amount</label>
+                    <input type="number" name="min_amount" class="form-control" step=".01" min="0" value="{{ filters.min_amount if filters.min_amount }}">
+                </div>
+                <div class="col-md-4">
+                    <label>Maximum Amount</label>
+                    <input type="number" name="max_amount" class="form-control" step=".01" min="0" value="{{ filters.max_amount if filters.max_amount }}">
+                </div>
+            </div>
+            <p></p>
+            <div class="mb-3">
+                <label>Source</label>
+                <p>Separate multiple with commas ex.'one, two, ...'</p>
+                <input type="text" name="source" class="form-control" value="{{ sources if sources != '' }}">
+            </div>
+            <p></p>
+            <div class="mb-3">
+                <label>Category</label>
+                <p>Hold Ctrl/Cmd to select multiple</p>
+                <select name="categories" id="category_choice" multiple>
+                    {% for category in categories %}
+                    <option value="{{ category.name }}" {% if filters.categories and category.name in filters.categories %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- <div class="mb-3 d-flex justify-content-between align-items-left">
+                <label>Recurring</label>
+                <input type="checkbox" name="recurring" class="form-check-input" unchecked>
+            </div> -->
+            <p></p>
+            <div class="mb-3 d-flex justify-content-end">
+                <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
