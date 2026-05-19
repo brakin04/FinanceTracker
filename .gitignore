@@ -1,10 +1,12 @@
 __pycache__/
+.pytest_cache/
 venv/
 *.pyc
 *.pyo
 *.pyd
 finance.db
 instance/
+backups/
 logs/
 migrations/
 .env

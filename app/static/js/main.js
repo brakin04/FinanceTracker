@@ -64,4 +64,18 @@ window.addEventListener('DOMContentLoaded', () => {
     if (savedDarkMode === 'true') {
         toggleDark();
     }
+
+    const rows = document.querySelectorAll('.expense-row');
+    if (rows.length > 0) {
+        const regex = /\bfraud\b/i;
+        rows.forEach(row => {
+            const descriptionCell = row.cells[4]; 
+            const descriptionText = descriptionCell.textContent || descriptionCell.innerText;
+
+            if (regex.test(descriptionText)) {
+                row.classList.add('fraud');
+                console.log('Class list:', row.classList);
+            }
+        });
+    }
 });

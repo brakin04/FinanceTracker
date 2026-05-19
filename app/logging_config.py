@@ -1,5 +1,6 @@
 import os
 import logging
+from .file_functions import search_file, edit_file, get_file_content
 
 
 LOGGER_NAME = "FinanceLogger"
@@ -50,15 +51,9 @@ def savedLevel(type: str | None = "GET", value: str | None = None):
     logger.info(f"savedLevel function in logging_config.py called with type: {type}, value: {value}")
     idx = -1
     level = None
-    data = []
-    with open("config.txt", 'r') as f:
-        data = f.readlines()
-        for line in data:
-            idx += 1
-            if line.startswith("log-level:"):
-                level = line.split(": ")[1].strip()
-                break
-        f.close()
+    idx = search_file(file_name="config.txt", content="log-level:", starts_with=True)
+    if idx != -1:
+        level = get_file_content(file_name="config.txt", line_idx=idx).split(": ")[1].strip()
     # Recieve the log level
     if type == "GET":
         if not level:
@@ -77,10 +72,7 @@ def savedLevel(type: str | None = "GET", value: str | None = None):
             return logging.CRITICAL         
     else:
         # Set the log level
-        logger.info(f"Setting log level to {value} in config")
-        with open("config.txt", 'w') as f:
-            if idx != -1:
-                data[idx] = f"log-level: {value}\n"
-            f.writelines(data)
-            f.close()
-        return
+        logger.info(f"Updating log level to {value} in config")
+        success = edit_file(file_name="config.txt", old_content="log-level:", new_content=f"log-level: {value}", starts_with=True)
+        if not success:
+            logger.error("Failed to update log level in config")

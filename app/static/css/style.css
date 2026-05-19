@@ -39,6 +39,16 @@ input, textarea, select {
     border-radius: 20px;
 }
 
+.table tbody tr.fraud td {
+    background-color: #f00 !important;
+    color: #000 !important;
+}
+.table tbody tr.fraud td .btn {
+    border-color: #000 !important;
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
 /* Charts */
 .chart-container {
     width: 50%;

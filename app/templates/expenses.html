@@ -32,7 +32,7 @@
                 </thead>
                 <tbody>
                 {% for expense in expenses %}
-                    <tr>
+                    <tr class="{{ 'fraud' if expense.fraud }} expense-row">
                         <td>{{ expense.date }}</td>
                         <td>{{ "{:,.2f}".format(expense.amount) }}</td>
                         <td>{{ expense.where }}</td>

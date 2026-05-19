@@ -1,5 +1,6 @@
 from flask import Flask
 from werkzeug.exceptions import HTTPException
+from .file_functions import create_files, delete_old_backup_logs
 from flask_login import LoginManager, current_user
 from flask import render_template, request
 from .models import db
@@ -21,6 +22,7 @@ def create_app(test_config=None):
     if test_config:
         app.config.from_object(test_config)
         logger = setup_logger("tests.log", logging.DEBUG)
+        create_files(True)
     else:
         app.config['SECRET_KEY'] = 'super-secret-key'
         if os.environ.get("DOCKER") == "1":
@@ -30,8 +32,10 @@ def create_app(test_config=None):
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['DEBUG'] = True
         logger = setup_logger("finance.log", logging.INFO)
+        create_files()
     app.logger = logger
     register_cli_commands(app)
+    delete_old_backup_logs()
     logger.info("Finance program started") 
 
     db.init_app(app)
@@ -78,9 +82,9 @@ import atexit
 # Backup database and log exit
 def log_and_db_backup():
     logger.critical("Finance program exited unexpectedly or was terminated.")
-    # if os.environ.get('TESTING') == 'True':
-    #     logger.info("In testing environment. Skipping backup.")
-    #     return
+    if os.environ.get('TESTING') == 'True':
+        logger.info("In testing environment. Skipping backup.")
+        return
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     try:

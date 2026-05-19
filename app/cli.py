@@ -13,7 +13,7 @@ def register_cli_commands(app):
 
     @app.cli.command("update_db")
     def update_db():
-        """Initialize, migrate, and upgrade the database."""
+        # Initialize, migrate, and upgrade the database
         migrations_path = os.path.join(
             os.path.dirname(current_app.root_path),
             "migrations"
