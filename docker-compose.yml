@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5050:5050"
+    volumes:
+      # Maps your local folders to the container so data persists
+      - ./instance:/app/instance
+      - ./logs:/app/logs
+    environment:
+      - FLASK_ENV=development
