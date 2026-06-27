@@ -42,11 +42,11 @@ python
 ```
 ### 3️⃣ Run this line
 ```bash
-export FLASK_APP=run.py
+export FLASK_APP=app.py
 ```
 or the following if you are on Windows:
 ```bash
-$env:FLASK_APP = "run.py"
+$env:FLASK_APP = "app.py"
 ```
 
 ## If you'd like to type 'r' in the command line to restart and 'q' to quit

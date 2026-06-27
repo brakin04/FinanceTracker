@@ -1,26 +1,27 @@
 #!/bin/bash
 
-# Function to start your run.py
+# run using 'sh start.sh'
+
+echo "Checking and installing dependencies..."
+
+pip3 install -r requirements.txt
+
 start_app() {
-    # Run in background and suppress "Terminated" messages
-    python3 run.py &
+    python3 app.py &
     APP_PID=$!
     echo "--- Finance App Started (PID: $APP_PID) ---"
 }
 
-# Initial start
 start_app
 
 echo "Commands: [r] Restart | [q] Quit"
 
 while true; do
-    # Read 1 character of input
     read -r -n 1 user_input
-    echo "" # Move to new line
+    echo "" 
 
     if [[ "$user_input" == "r" ]]; then
-        echo "Restarting Finance Application..."
-        # Kill the specific process group to ensure child processes die
+        echo "Restarting Betting Application..."
         kill -TERM $APP_PID 2>/dev/null
         wait $APP_PID 2>/dev/null
         start_app

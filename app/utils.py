@@ -1,3 +1,6 @@
+from functools import wraps
+from flask import flash, redirect, url_for
+from flask_login import current_user
 from app.models import Expense, Income, Budget, Category, db
 from datetime import datetime, timedelta
 from typing import Optional
@@ -10,7 +13,7 @@ logger = logging.getLogger("FinanceLogger")
 #------------------------------
 # Read files
 def get_file_content(file_path: Optional[str]="no path given"):
-    logger.debug(f"get_file_content function entered in utils.py for file: {file_path}")
+    logger.debug(f"get_file_content entered in utils.py for file: {file_path}")
     try:
         with open(file_path, 'r') as f:
             logger.debug(f"Successfully opened and read file: {file_path}")
@@ -26,17 +29,17 @@ def get_file_content(file_path: Optional[str]="no path given"):
 #-------------------------------
 # Return all current categories of a specific type (expense, income, or all) as a list
 def get_all_categories(user_id: int | None=None, type: Optional[str]='all'):
-    logger.debug(f"get_all_categories function entered in utils.py for type: {type}")
+    logger.debug(f"get_all_categories entered in utils.py for type: {type}")
     categories = []
     if user_id is None:
-        logger.info("get_all_categories function exited with failure (No user_id) in utils.py")
+        logger.info("get_all_categories exited with failure (No user_id) in utils.py")
         return []
     if type == "all" or type == None:
         query = db.select(Category).filter_by(user_id=user_id).order_by(Category.name.asc()).distinct()
     else:
         query = db.select(Category).filter_by(user_id=user_id, type=type.capitalize()).order_by(Category.name.asc()).distinct()
     categories = db.session.scalars(query).all()
-    logger.debug("get_all_categories function exited in utils.py")
+    logger.debug("get_all_categories exited in utils.py")
     return categories
 
 
@@ -45,10 +48,10 @@ def get_all_categories(user_id: int | None=None, type: Optional[str]='all'):
 #   Returns a list of expenses or incomes or None if there's none or type is wrong.
 def get_finances_by_date_range(user_id: int | None=None, start_date: Optional[datetime] = None, 
                                end_date: Optional[datetime] = None, finance_type: Optional[str] = None):
-    logger.debug(f"get_finances_by_date_range function entered in utils.py for type: {finance_type}")
+    logger.debug(f"get_finances_by_date_range entered in utils.py for type: {finance_type}")
     query = None
     if user_id is None:
-        logger.info("get_finances_by_date_range function exited with failure (No user_id) in utils.py")
+        logger.info("get_finances_by_date_range exited with failure (No user_id) in utils.py")
         return None
     if finance_type == 'e':
         query = db.select(Expense).filter_by(user_id=user_id)
@@ -65,7 +68,7 @@ def get_finances_by_date_range(user_id: int | None=None, start_date: Optional[da
     finances = None
     if query is not None:
         finances = db.session.scalars(query)
-    logger.debug(f"get_finances_by_date_range function exited in utils.py with finances: {finances is not None}")
+    logger.debug(f"get_finances_by_date_range exited in utils.py with finances: {finances is not None}")
     return finances.all() if finances else None
 
 
@@ -73,11 +76,11 @@ def get_finances_by_date_range(user_id: int | None=None, start_date: Optional[da
 # Gets total amount from a query of expenses or incomes. Used for dashboard filters and comparisons. 
 #   Returns a double or 0 if none.
 def get_total_from_query_list(query: Optional[list] = None):
-    logger.debug(f"get_total_from_query function entered in utils.py")
+    logger.debug(f"get_total_from_query entered in utils.py")
     total = 0
     if query and len(query) > 0:
         total = sum(item.amount for item in query)
-    logger.debug(f"get_total_from_query function exited in utils.py")
+    logger.debug(f"get_total_from_query exited in utils.py")
     return total
 
 
@@ -86,7 +89,7 @@ def get_total_from_query_list(query: Optional[list] = None):
 #   dates based on timeframe. returns [start date, end date]
 def check_dates(timeframe: Optional[str] = None, form_start_date: Optional[str] = None, 
                 form_end_date: Optional[str] = None):
-    logger.debug(f"check_dates function entered in utils.py")
+    logger.debug(f"check_dates entered in utils.py")
     end_date = None
     start_date = None
 
@@ -115,7 +118,8 @@ def check_dates(timeframe: Optional[str] = None, form_start_date: Optional[str] 
     if end_date == None:
         logger.debug("No timeframe")
         if not form_start_date and not form_end_date:
-            logger.debug("No dates given exiting check_dates function in utils.py all 'None'")
+            logger.warning("No dates given in check_dates.")
+            logger.debug("check_dates exited with failure (no dates) in utils.py")
             return [None, None, None, None]
         if form_start_date:
             start_date = datetime.strptime(form_start_date, '%Y-%m-%d').date()
@@ -123,14 +127,14 @@ def check_dates(timeframe: Optional[str] = None, form_start_date: Optional[str] 
         if form_end_date:
             end_date = datetime.strptime(form_end_date, '%Y-%m-%d').date()
 
-    logger.debug(f"Check dates function exited in utils.py ")
+    logger.debug(f"check dates exited in utils.py ")
     return [start_date, end_date]
 
 
 #-------------------------------
 # Checks if a category is in use (before deleting or editing). Returns a boolean.
 def category_in_use(category: Category, user_id: int | None=None):
-    logger.debug(f"category_in_use function entered in utils.py for category: {category.name}")
+    logger.debug(f"category_in_use entered in utils.py for category: {category.name}")
     cat_name = category.name.capitalize()
     in_use = False
     if category.type.capitalize() == "Expense":
@@ -142,17 +146,17 @@ def category_in_use(category: Category, user_id: int | None=None):
     else:
         i_query = db.select(Income).filter_by(user_id=user_id, category=cat_name).limit(1)
         in_use = db.session.scalar(i_query) is not None
-    logger.debug(f"category_in_use function exited in utils.py with in_use: {in_use}")
+    logger.debug(f"category_in_use exited in utils.py with in_use: {in_use}")
     return in_use
 
 
 #-------------------------------
 # Creates pie chart for dashboard and budget. Takes in a list of expenses or incomes and returns html
 def get_pie_chart(query_data: Optional[list] = None, type: Optional[str] = 'No type'):
-    logger.debug(f"get_pie_chart function entered in utils.py for: {type}")
+    logger.debug(f"get_pie_chart entered in utils.py for: {type}")
 
     if not query_data or len(query_data) == 0:
-        logger.debug("get_pie_chart function exited in utils.py because no data")
+        logger.debug("get_pie_chart exited in utils.py because no data")
         return "No pie chart data"
     
     category_map = {}
@@ -164,7 +168,7 @@ def get_pie_chart(query_data: Optional[list] = None, type: Optional[str] = 'No t
         values=list(category_map.values()),
         title=f'{type.capitalize()} by Category'
     )
-    logger.debug("get_pie_chart function exited in utils.py with success")
+    logger.debug("get_pie_chart exited in utils.py with success")
     return fig.to_html(full_html=False, include_plotlyjs='cdn') # false is div only
 
 
@@ -172,10 +176,10 @@ def get_pie_chart(query_data: Optional[list] = None, type: Optional[str] = 'No t
 # Creates bar graph for dashboard. Takes in a list of expenses or incomes and returns html
 def get_bar_graph(start: Optional[datetime] = None, end: Optional[datetime] = None, 
                    query_data: Optional[list] = None, type: Optional[str] = 'no type'):
-    logger.debug(f"get_bar_graph function entered in utils.py for: {type}")
+    logger.debug(f"get_bar_graph entered in utils.py for: {type}")
 
     if not query_data or len(query_data) == 0:
-        logger.debug("get_bar_graph function exited in utils.py because no data")
+        logger.debug("get_bar_graph exited in utils.py because no data")
         return "No bar graph data"
     
     actual_start = start if start else min(d.date for d in query_data)
@@ -230,5 +234,17 @@ def get_bar_graph(start: Optional[datetime] = None, end: Optional[datetime] = No
             type='category' # Keeps the bars centered over the labels
         ))
 
-    logger.debug("get_bar_graph function exited in utils.py with finished graph")
+    logger.debug("get_bar_graph exited in utils.py with finished graph")
     return fig.to_html(full_html=False, include_plotlyjs='cdn')
+
+
+#-------------------------------
+# Decorator to restrict access to routes for authenticated users
+def anonymous_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated:
+            flash("You cannot access this page while logged in.", "warning")
+            return redirect(url_for('main.dashboard'))
+        return f(*args, **kwargs)
+    return decorated_function

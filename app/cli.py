@@ -9,7 +9,6 @@ from .models import db
 logger = logging.getLogger("FinanceLogger")
 
 def register_cli_commands(app):
-    """Attach CLI commands to the Flask app."""
 
     @app.cli.command("update_db")
     def update_db():
@@ -49,5 +48,18 @@ def register_cli_commands(app):
         if upgrade.returncode != 0:
             logger.error(upgrade.stderr)
 
+    @app.cli.command("backup")
+    def backup():
+        from .file_functions import backup_db_and_logs
+        if backup_db_and_logs():
+            logger.info("Db and logs backed up successfully from cli")
+            return
+        logger.warning("Failed to backup db and logs from cli")
 
-
+    @app.cli.command("new_log")
+    def new_log():
+        from .file_functions import make_new_log_file
+        if make_new_log_file(): 
+            logger.info("New log file made successfully from cli")
+            return
+        logger.warning("Failed to make new log file from cli")

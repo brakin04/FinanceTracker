@@ -5,18 +5,10 @@ HTML
     - Analytics?
         business / personal accounts
 
-Budgets?
-
-adding an expense takes awhile sometimes
-
-https://www.google.com/search?q=if+i+have+a+database+setup+in+flask+app%2C+how+do+i+add+more+columns+to+the+db+keeping+all+my+old+data&oq=if+i+have+a+database+setup+in+flask+app%2C+how+do+i+add+more+columns+to+the+db+keeping+all+my+old+data&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRiPAjIHCAIQIRiPAtIBCTQyMzA1ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
-
-make recurring work (need to change values in db)
-
 add suggested budgets based off gross inc and possibly investments
 
 assetts section for business acc as well then stock?
 
-create the necessary files and what not
-    config.txt instead of having it created by default
-    use file_config for logging
+add session id tracking to keep from attempting tons of passwords
+
+make start.bat kill the correct thing 

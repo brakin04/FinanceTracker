@@ -1,21 +1,23 @@
 # Holds all routes related to authentication (register, login, logout)
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
+from app.utils import anonymous_required
 import logging
 
 auth_bp = Blueprint('auth', __name__)
 logger = logging.getLogger("FinanceLogger")
-
 security_questions = ["What is your hometown?", "What was the name of your first pet?", "What is your mother's maiden name?"]
+
+
 # ------------------------------
 @auth_bp.route('/register', methods=['GET', 'POST'])
+@anonymous_required
 def register():
-    logger.debug(f"Register function entered in routes.py method: {request.method}")
+    logger.debug(f"Register entered in authentication.py method: {request.method}")
     logger.info("Registration attempt initiated")
-    logger.debug(f"Session ID: {session.get('session_id')}")
     if request.method == 'POST':
         email = request.form['email']
         nickname = request.form['nickname']
@@ -28,13 +30,13 @@ def register():
         # Check for existing email and nickname
         if db.session.scalar(db.select(User).filter_by(email=email).limit(1)):
             logger.warning("Registration failed: Email already taken")
-            logger.debug("Register function exited with failure in routes.py")
+            logger.debug("Register exited with failure in authentication.py")
             flash("Email already taken!", "warning")
             return redirect(url_for('auth.register'))
 
         if db.session.scalar(db.select(User).filter_by(nickname=nickname).limit(1)):
             logger.warning("Registration failed: Nickname already taken")
-            logger.debug("Register function exited with failure in routes.py")
+            logger.debug("Register exited with failure in authentication.py")
             flash("Nickname already taken!", "warning")
             return redirect(url_for('auth.register'))
 
@@ -47,20 +49,21 @@ def register():
         logger.info(f"New user registered: {nickname}")
 
         flash("Registration successful! Please login.", "success")
-        logger.debug("Register function exited with success in routes.py")
+        logger.debug("Register exited with success in authentication.py")
         return redirect(url_for('auth.login'))
     
-    logger.debug("Register function exited from GET request in routes.py")
+    logger.debug("Register exited from GET request in authentication.py")
     return render_template('register.html', security_questions=security_questions)
 
 
 # ------------------------------
 @auth_bp.route('/login', methods=['GET', 'POST'])
+@anonymous_required
 def login():
-    logger.debug(f"Login function entered in routes.py method: {request.method}")
+    logger.debug(f"Login entered in authentication.py method: {request.method}")
     if request.method == 'POST':
         logger.info("Login attempt")
-        logger.debug(f"Session ID: {session.get('session_id')}")
+        logger.debug(f"")
         identity = request.form['identity']
         password = request.form['password']
 
@@ -72,23 +75,24 @@ def login():
             login_user(user)
             logger.info(f"Authentication success for user: {user.nickname}")
             flash("Welcome back!", "success")
-            logger.debug("Login function exited with success as user in routes.py")
+            logger.debug("Login exited with success as user in authentication.py")
             return redirect(url_for('main.dashboard'))
 
         else:
             logger.warning(f"Authentication failure for: {identity}")
             flash("Invalid credentials, try again.", "warning")
-            logger.debug("Login function exited with authentication failure in routes.py")
+            logger.debug("Login exited with authentication failure in authentication.py")
             return redirect(url_for('auth.login'))
 
-    logger.debug("Login function exited from GET request in routes.py")
+    logger.debug("Login exited from GET request in authentication.py")
     return render_template('login.html')
 
 
 #-------------------------------
 @auth_bp.route('/login/security', methods=['GET', 'POST'])
+@anonymous_required
 def login_security():
-    logger.debug(f"Login security function entered in routes.py method: {request.method}")
+    logger.debug(f"Login_security entered in authentication.py method: {request.method}")
     if request.method == 'POST':
         email = request.form['email']
         nickname = request.form['nickname']
@@ -104,15 +108,15 @@ def login_security():
             login_user(user)
             logger.info(f"Security question authentication success for user: {user.nickname}")
             flash("Welcome back! I reccomend changing your password.", "success")
-            logger.debug("Login security function exited with success as user in routes.py")
+            logger.debug("Login_security exited with success as user in authentication.py")
             return redirect(url_for('main.profile'))
         else:
             logger.warning(f"Security question authentication failure for: {nickname} email: {email}")
             flash("Invalid credentials", "warning")
-            logger.debug("Login security function exited with authentication failure in routes.py")
+            logger.debug("Login_security exited with authentication failure in authentication.py")
             return redirect(url_for('auth.login_security'))
 
-    logger.debug("Login security function exited from GET request in routes.py")
+    logger.debug("Login_security exited from GET request in authentication.py")
     return render_template('login_security.html', security_questions=security_questions)
 
 
@@ -120,10 +124,10 @@ def login_security():
 @auth_bp.route('/logout')
 @login_required
 def logout():
-    logger.debug("Logout function entered in routes.py")
+    logger.debug("Logout entered in authentication.py")
     logger.info(f"User logged out: {current_user.nickname}")
     logout_user()
     flash("You have been logged out.", "info")
-    logger.debug("Logout function exited in routes.py")
+    logger.debug("Logout exited in authentication.py")
 
     return redirect(url_for('auth.login'))
