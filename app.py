@@ -8,7 +8,6 @@ logger = logging.getLogger("FinanceLogger")
 if __name__ == '__main__':
     logger.info("Starting Finance application")
     try:
-        # Check installation of all parameters
         with app.app_context():
             db.create_all()
         host = "0.0.0.0"

@@ -2,7 +2,6 @@
 
 A simple money tracking platform built by Bryan A.
 
----
 
 ## ✨ Features
 - User Registration, Login & Logout
@@ -12,7 +11,6 @@ A simple money tracking platform built by Bryan A.
 - Flash messages styled with Bootstrap
 - Jinja2 templating language
 
----
 
 ## 💻 Tech Stack
 - Python 3.x
@@ -22,25 +20,36 @@ A simple money tracking platform built by Bryan A.
 - Bootstrap 5
 - Jinja2
 
----
+## Notes
+- Passwords are securely hashed using PBKDF2
+- Users can add expenses and incomes with custom categories
+- Flash messages will help the user understand each action's result
 
-## ✅ How to Run Locally
+## UI Highlights
+- Reddit-style card layouts
+- Responsive design (Bootstrap 5)
+- Flash messages with category styling
 
-### 1️⃣ Install Dependencies
+## How To Run Locally
+
+### Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2️⃣ Initialize Database
+### Initialize Database
 ```bash
 python
->>> from app import create_app, db
->>> app = create_app()
->>> app.app_context().push()
->>> db.create_all()
->>> exit()
 ```
-### 3️⃣ Run this line
+then
+```bash
+from app import create_app, db
+app = create_app()
+app.app_context().push()
+db.create_all()
+exit()
+```
+### Run this line
 ```bash
 export FLASK_APP=app.py
 ```
@@ -56,7 +65,7 @@ chmod +x start.sh
 ```
 If that doesnt work use option 3 below
 
-### 4️⃣ Run the App
+### Run the App
 Option 1: Run regularly
 ```bash
 python run.py
@@ -71,9 +80,14 @@ Option 3:
 ./start.bat
 ```
 
-### 5️⃣ Visit ➤ http://127.0.0.1:5050 in your browser.
+### Visit ➤ http://127.0.0.1:5050 in your browser.
 
-### 6️⃣ To exit the app press: crtl + c
+### To exit the app press: crtl + c
+
+## Running Tests
+```bash
+python -m pytest -v
+```
 
 ---
 To change the file logger's level, click the logging info button on the dashboard  
@@ -90,16 +104,3 @@ To change the file logger's level, click the logging info button on the dashboar
     export FLASK_APP=run.py
     flask update_db  
 ```
-
-## 💡 Notes
-- Passwords are securely hashed using PBKDF2
-- Users can add expenses and incomes with custom categories
-- Flash messages will help the user understand each action's result
-
----
-## 🎨 UI Highlights
-- Reddit-style card layouts
-- Responsive design (Bootstrap 5)
-- Flash messages with category styling
-
-

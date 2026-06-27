@@ -12,3 +12,5 @@ assetts section for business acc as well then stock?
 add session id tracking to keep from attempting tons of passwords
 
 make start.bat kill the correct thing 
+
+rate limiting

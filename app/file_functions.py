@@ -15,9 +15,11 @@ def create_files(test=False):
     log_dir = os.path.join(BASE_DIR, "logs")
     os.makedirs(log_dir, exist_ok=True)
     if test:
-        create_file(directory=log_dir, file_name='tests.log', content=f"Test log file created at {timestamp}\n")
+        if not os.path.exists(os.path.join(log_dir, 'tests.log')):
+            create_file(directory=log_dir, file_name='tests.log', content=f"Test log file created at {timestamp}\n")
     else: 
-        create_file(directory=log_dir, file_name='finance.log', content=f"Finance log file created at {timestamp}\n")
+        if not os.path.exists(os.path.join(log_dir, 'finance.log')):
+            create_file(directory=log_dir, file_name='finance.log', content=f"Finance log file created at {timestamp}\n")
     if not os.path.exists(os.path.join(BASE_DIR, 'config.txt')):
         create_file(file_name='config.txt', content='log-level: INFO')
 
