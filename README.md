@@ -12,7 +12,7 @@ A simple money tracking platform built by Bryan A.
 - Jinja2 templating language
 
 
-## 💻 Tech Stack
+## 💻 Tech Stacke
 - Python 3.x
 - Flask
 - Flask-Login
@@ -68,7 +68,7 @@ If that doesnt work use option 3 below
 ### Run the App
 Option 1: Run regularly
 ```bash
-python run.py
+python app.py
 ```
 or the following if using 'r' and 'q'
 Option 2:
