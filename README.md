@@ -23,6 +23,7 @@ A simple money tracking platform built by Bryan A.
 ## Notes
 - Passwords are securely hashed using PBKDF2
 - Users can add expenses and incomes with custom categories
+- Budgets can be made for every expense category
 - Flash messages will help the user understand each action's result
 
 ## UI Highlights

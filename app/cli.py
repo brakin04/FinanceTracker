@@ -4,7 +4,6 @@ import subprocess
 import logging
 import click
 from flask import current_app
-from .models import db
 
 logger = logging.getLogger("FinanceLogger")
 

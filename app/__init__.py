@@ -87,7 +87,7 @@ def create_app(test_config=None):
 
 import atexit
 def cleanup():
-    logger.critical("Betting program exited unexpectedly or was terminated.")
+    logger.critical("Finance program exited unexpectedly or was terminated.")
     backup_db_and_logs()
 
 atexit.register(cleanup)
