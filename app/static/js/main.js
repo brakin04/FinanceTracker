@@ -1,5 +1,4 @@
 function scrollToSpot(spot) {
-    // Determine where to scroll then do it
     var where = (spot === 'bottom') ? document.body.scrollHeight : 0;
     window.scrollTo({
         top: where,
@@ -8,22 +7,15 @@ function scrollToSpot(spot) {
 }
 
 function toggleDark() {
-    // Determine the new theme based on current background
-    const isNowDark = document.body.style.backgroundColor !== 'black';
-    const bgColor = isNowDark ? 'black' : 'white';
-    const textColor = isNowDark ? 'white' : 'black';
+    const isNowDark = document.body.classList.toggle('dark-mode');
+    const textColor = isNowDark ? '#F5F5F0' : '#35393C';
+    const bgColor = isNowDark ? '#35393C' : '#F5F5F0';
 
-    // Apply to body
-    document.body.style.backgroundColor = bgColor;
-    document.body.style.color = textColor;
-
-    // Apply to all cards
     document.querySelectorAll('.card').forEach(function(link) {
         link.style.backgroundColor = bgColor;
         link.style.color = textColor;
     });
 
-    // Save to storage
     localStorage.setItem('darkMode', isNowDark);
 }
 
@@ -32,7 +24,6 @@ const confirmPass = document.getElementById('confirm_password');
 const submitBtn = document.getElementById('submitBtn');
 
 function validatePasswords() {
-    // Only validate if the user has actually typed something in the confirmation box
     if (confirmPass.value.length > 0) {
         if (password.value === confirmPass.value) {
             confirmPass.classList.remove('is-invalid');
@@ -44,27 +35,26 @@ function validatePasswords() {
             submitBtn.disabled = true;
         }
     } else {
-        // Reset if confirm is empty
         confirmPass.classList.remove('is-invalid', 'is-valid');
         submitBtn.disabled = false;
     }
 }
 
-// Listen for typing events on both fields
 if (password && confirmPass && submitBtn) {
     password.addEventListener('input', validatePasswords);
     confirmPass.addEventListener('input', validatePasswords);
 }
 
 
-// Run toggle dark when page loads to restore preferred theme
+
 window.addEventListener('DOMContentLoaded', () => {
+    // Run toggle dark when page loads to restore preferred theme
     const savedDarkMode = localStorage.getItem('darkMode');
-    
     if (savedDarkMode === 'true') {
         toggleDark();
     }
 
+    // highlight rows with "fraud" in the description
     const rows = document.querySelectorAll('.expense-row');
     if (rows.length > 0) {
         const regex = /\bfraud\b/i;
@@ -74,7 +64,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (regex.test(descriptionText)) {
                 row.classList.add('fraud');
-                console.log('Class list:', row.classList);
             }
         });
     }

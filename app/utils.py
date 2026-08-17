@@ -168,6 +168,7 @@ def get_pie_chart(query_data: Optional[list] = None, type: Optional[str] = 'No t
         values=list(category_map.values()),
         title=f'{type.capitalize()} by Category'
     )
+    fig.update_layout(paper_bgcolor="#35393C", plot_bgcolor="#35393C", font_color="#F5F5F0")
     logger.debug("get_pie_chart exited in utils.py with success")
     return fig.to_html(full_html=False, include_plotlyjs='cdn') # false is div only
 
@@ -227,12 +228,15 @@ def get_bar_graph(start: Optional[datetime] = None, end: Optional[datetime] = No
         labels={'x': 'Time Period', 'y': 'Total Amount'},
         template="plotly_white"
     )
-    fig.update_layout(xaxis_tickangle=-45,              
+    fig.update_layout(xaxis_tickangle=-45,
             xaxis=dict(
             tickmode='auto',
-            nticks=15,      # Limits the maximum number of labels shown
-            type='category' # Keeps the bars centered over the labels
-        ))
+            nticks=15,
+            type='category'),
+            paper_bgcolor="#35393C",
+            plot_bgcolor="#35393C", 
+            font_color="#F5F5F0"
+    )
 
     logger.debug("get_bar_graph exited in utils.py with finished graph")
     return fig.to_html(full_html=False, include_plotlyjs='cdn')

@@ -1,6 +1,11 @@
-/* General */
 body {
-    background-color: #ffffff;
+    background-color: #F5F5F0;
+    color: #35393C;
+}
+
+body.dark-mode {
+    background-color: #35393C;
+    color: #F5F5F0;
 }
 
 body.blurred {
@@ -9,32 +14,28 @@ body.blurred {
 }
 
 .nav-link{
-    color: #000000;
+    color: #35393C;
     font-weight: 400;
     font-size: 18px;
 }
-/* Navbar */
+
 .navbar {
-    background-color: #1e8eff !important;
+    background-color: #A4D8FF !important;
 }
 
-/* Cards */
 .card {
     border-radius: 10px;
-    border: 1px solid #dddddd;
+    border: 1px solid #000000;
 }
 
-/* Flash messages */
 .alert {
     border-radius: 10px;
 }
 
-/* Form Inputs */
 input, textarea, select {
     border-radius: 5px;
 }
 
-/* Buttons */
 .btn {
     border-radius: 20px;
 }
@@ -49,7 +50,6 @@ input, textarea, select {
     color: #fff !important;
 }
 
-/* Charts */
 .chart-container {
     width: 50%;
     margin: 10px;
@@ -75,17 +75,17 @@ input, textarea, select {
 }
 
 textarea {
-  width: 45%; /* Adjust width as needed */
-  height: 60px; /* Adjust height as needed */
+  width: 45%;
+  height: 60px;
   padding: 10px;
   border: 1px solid #ccc;
-  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  box-sizing: border-box;
 }
 
 .textarea2 {
-  width: 45%; /* Adjust width as needed */
-  height: 60px; /* Adjust height as needed */
+  width: 45%;
+  height: 60px;
   padding: 10px;
   border: 1px solid #ccc;
-  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  box-sizing: border-box;
 }
